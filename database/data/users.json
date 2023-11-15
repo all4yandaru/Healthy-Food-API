@@ -4,34 +4,34 @@
         "email": "putri1@gmail.com",
         "password": "putri123",
         "phone": "089612345678",
-        "roleId ": 1
+        "roleId": 1
     },
     {
         "name": "Marco",
         "email": "marcomar@gmail.com",
         "password": "marco123",
         "phone": "089612345610",
-        "roleId ": 1
+        "roleId": 1
     },
     {
         "name": "Bunga",
         "email": "bunga@gmail.com",
         "password": "bunga123",
         "phone": "089612345612",
-        "roleId ": 1
+        "roleId": 1
     },
     {
         "name": "Riski",
         "email": "riski1@gmail.com",
         "password": "riski123",
         "phone": "089612345789",
-        "roleId ": 1
+        "roleId": 1
     },
     {
         "name": "Riska",
         "email": "riska@gmail.com",
         "password": "riska123",
         "phone": "089612341234",
-        "roleId ": 2
+        "roleId": 2
     }
 ]

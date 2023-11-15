@@ -4,27 +4,27 @@
         "total": 135000,
         "date": "15/11/2023",
         "paymentStatus": "Waiting for Payment",
-        "paymentMethod ": "Cash"
+        "paymentMethod": "Cash"
     },
     {
         "userId": 2,
         "total": 140000,
         "date": "15/11/2023",
         "paymentStatus": "Payment Successfull",
-        "paymentMethod ": "DC"
+        "paymentMethod": "DC"
     },
     {
         "userId": 3,
         "total": 180000,
         "date": "14/11/2023",
         "paymentStatus": "In Delivery",
-        "paymentMethod ": "CC"
+        "paymentMethod": "CC"
     },
     {
         "userId": 4,
         "total": 80000,
         "date": "13/11/2023",
         "paymentStatus": "Delivered",
-        "paymentMethod ": "eMoney"
+        "paymentMethod": "eMoney"
     }
 ]

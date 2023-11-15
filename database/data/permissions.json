@@ -1,17 +1,17 @@
 [
     {
-        "name ": "browse_food"
+        "name": "browse_food"
     },
     {
-        "name ": "read_food"
+        "name": "read_food"
     },
     {
-        "name ": "add_food"
+        "name": "add_food"
     },
     {
-        "name ": "edit_food"
+        "name": "edit_food"
     },
     {
-        "name ": "delete_food"
+        "name": "delete_food"
     }
 ]
