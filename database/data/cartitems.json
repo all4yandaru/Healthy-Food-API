@@ -3,24 +3,24 @@
         "userId": 1,
         "productId": 2,
         "quantity": 3,
-        "note ": "add more sauce"
+        "note": "add more sauce"
     },
     {
         "userId": 2,
         "productId": 4,
         "quantity": 4,
-        "note ": "NULL"
+        "note": "NULL"
     },
     {
         "userId": 3,
         "productId": 5,
         "quantity": 4,
-        "note ": "NULL"
+        "note": "NULL"
     },
     {
         "userId": 4,
         "productId": 1,
         "quantity": 2,
-        "note ": "please put spoon"
+        "note": "please put spoon"
     }
 ]
