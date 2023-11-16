@@ -2,9 +2,9 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   const categoryproduct = sequelize.define(
-    "categoryproduct",
+    "categoryproducts",
     {},
-    { timestamps: false, tableName: "categoryproduct" }
+    { timestamps: false, tableName: "categoryproducts" }
   );
   class product extends Model {
     static associate(models) {

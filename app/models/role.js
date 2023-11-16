@@ -2,9 +2,9 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   const permissionrole = sequelize.define(
-    "permissionrole",
+    "permissionroles",
     {},
-    { timestamps: false, tableName: "permissionrole" }
+    { timestamps: false, tableName: "permissionroles" }
   );
   class role extends Model {
     static associate(models) {
