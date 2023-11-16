@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   class role extends Model {
     static associate(models) {
-      models.role.belongsToMany(models.permission, { trough: permissionrole });
+      models.role.belongsToMany(models.permission, { through: permissionrole });
       models.role.hasMany(models.user);
     }
   }
