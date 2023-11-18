@@ -4,7 +4,10 @@ const router = express.Router();
 const allowedTo = require("../constants/permissions");
 const { tokenAuth } = require("../middlewares/tokenAuth");
 const { permissionCheck } = require("../middlewares/permissionAuth");
-const { CartAddValidator } = require("../supports/validator/CartItemValidator");
+const {
+  CartAddValidator,
+  CartUpdateValidator,
+} = require("../supports/validator/CartItemValidator");
 
 router.use(tokenAuth);
 
@@ -37,7 +40,7 @@ router.get("/", permissionCheck(allowedTo.READ_CARTITEM), async (req, res) => {
 // Add Cart
 router.post(
   "/",
-  permissionCheck(allowedTo.READ_CARTITEM),
+  permissionCheck(allowedTo.ADD_CARTITEM),
   new CartAddValidator().validate(),
   async (req, res) => {
     // ambil data user
@@ -65,7 +68,7 @@ router.post(
         await cartitem.create({
           userId: tokenData.user.id,
           quantity: req.body.quantity,
-          note: req.body.note ?? null,
+          note: req.body.note,
           productId: productData.id,
         });
         res.send("cart added");
@@ -75,6 +78,49 @@ router.post(
     } else {
       res.send("product not found");
     }
+  }
+);
+
+// update cart
+router.put(
+  "/:id",
+  permissionCheck(allowedTo.EDIT_CARTITEM),
+  new CartUpdateValidator().validate(),
+  async (req, res) => {
+    // ambil data user
+    const tokenData = await token.findOne({
+      where: { token: req.headers["authorization"] },
+      include: "user",
+    });
+
+    // ambil data cart
+    await cartitem
+      .findOne({ where: { id: req.params.id, userId: tokenData.user.id } })
+      .then(async (val) => {
+        if (val) {
+          // ambil data produk
+          const productData = await product.findOne({
+            where: { id: val.productId },
+          });
+
+          // cek stock & quantity
+          if (productData != null) {
+            if (productData.stock > req.body.quantity) {
+              // update
+              val.quantity = req.body.quantity;
+              val.note = req.body.note;
+              val.save();
+              res.send("cart updated");
+            } else {
+              res.send("stock kurang");
+            }
+          } else {
+            res.send("product not found");
+          }
+        } else {
+          res.send("cart not found");
+        }
+      });
   }
 );
 
