@@ -74,6 +74,13 @@ router.put("/:id", new UserUpdateValidator().validate(), async (req, res) => {
     });
     if (checkEmail !== null) {
       res.send("email has been already used");
+    } else {
+      userData.name = req.body.name;
+      userData.phone = req.body.phone;
+      userData.updatedAt = new Date();
+      userData.email = req.body.email;
+      await userData.save();
+      res.send("Data Updated");
     }
   } else {
     userData.name = req.body.name;
