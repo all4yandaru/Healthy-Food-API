@@ -51,17 +51,6 @@ class UserUpdateValidator extends Validator {
       .isLength({ min: 1, max: 255 })
       .withMessage("Email must be between 1 and 255 characters"),
 
-    check("newEmail")
-      .notEmpty()
-      .isEmail()
-      .isLength({ min: 1, max: 255 })
-      .custom(async (email) => {
-        const checkEmail = await user.findOne({ where: { email: email } });
-        if (checkEmail !== null) {
-          throw Error(`email ${email} is already used`);
-        }
-      }),
-
     check("password")
       .notEmpty()
       .isLength({ min: 1, max: 255 })

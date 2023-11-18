@@ -32,75 +32,57 @@ router.post(
 router.use(tokenAuth);
 
 // GET ALL USERS (ADMIN ONLY) =============================================================
-router.get("/", permissionCheck(allowedTo.BROWSE_USERS), async (req, res) => {
-  await user.findAll({ include: "role" }).then((users) => {
-    res.json(users);
-  });
-});
+router.get(
+  "/getAll",
+  permissionCheck(allowedTo.BROWSE_USERS),
+  async (req, res) => {
+    await user.findAll({ include: "role" }).then((users) => {
+      res.json(users);
+    });
+  }
+);
 
 // GET OWN USER DATA BY ID ================================================================
-router.get("/:id", async (req, res) => {
+router.get("/", async (req, res) => {
   // get token data
   const tokenData = await token.findOne({
     where: { token: req.headers["authorization"] },
     include: "user",
   });
 
-  // check id
-  const idUser = parseInt(req.params.id);
-  if (tokenData.user.id === idUser) {
-    const userData = await user.scope("withPassword").findOne({
-      where: { id: idUser },
-    });
-    res.json(userData);
-  } else {
-    res.send("You are not allowed to access other users data");
-  }
+  await user
+    .scope("withPassword")
+    .findOne({ where: { id: tokenData.user.id } })
+    .then((val) => res.json(val));
 });
 
 // UPDATE USER BY ID ===================================================================
-router.post(
-  "/update/:id",
-  new UserUpdateValidator().validate(),
-  async (req, res) => {
-    // mendapatkan user data dari token
-    const tokenData = await token.findOne({
-      where: { token: req.headers["authorization"] },
-      include: "user",
+router.put("/:id", new UserUpdateValidator().validate(), async (req, res) => {
+  // mendapatkan user data dari token
+  const tokenData = await token.findOne({
+    where: { token: req.headers["authorization"] },
+    include: "user",
+  });
+
+  const userData = await user
+    .scope("withPassword")
+    .findOne({ where: { id: tokenData.user.id } });
+
+  if (userData.email != req.body.email) {
+    const checkEmail = await user.findOne({
+      where: { email: req.body.email },
     });
-
-    // cheking user data dengan body
-    const idUser = parseInt(req.params.id);
-    if (tokenData.user.id === idUser) {
-      const userData = await user.scope("withPassword").findOne({
-        where: { id: idUser, email: req.body.email },
-      });
-
-      if (userData !== null) {
-        // Change all data
-        userData.name = req.body.name;
-        userData.email = req.body.newEmail;
-        userData.phone = req.body.phone;
-        userData.updatedAt = new Date();
-        // encrypt password
-        bcrypt
-          .hash(req.body.password, parseInt(process.env.BCRYPT_ROUND) || 10)
-          .then((hash) => {
-            userData.password = hash;
-          })
-          .catch((Err) => {
-            throw new Error();
-          });
-
-        await userData.save();
-        res.send("user updated");
-      } else {
-        res.send("user is not found");
-      }
-    } else {
-      res.send("Data is not match");
+    if (checkEmail !== null) {
+      res.send("email has been already used");
     }
+  } else {
+    userData.name = req.body.name;
+    userData.phone = req.body.phone;
+    userData.updatedAt = new Date();
+    userData.email = req.body.email;
+    await userData.save();
+    res.send("Data Updated");
   }
-);
+});
 
 module.exports = router;
