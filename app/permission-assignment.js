@@ -37,6 +37,11 @@ module.exports = {
     // Category
     permissions.BROWSE_CATEGORIES,
     permissions.READ_CATEGORY,
+    // Cart Item
+    permissions.ADD_CARTITEM,
+    permissions.READ_CARTITEM,
+    permissions.EDIT_CARTITEM,
+    permissions.DELETE_CARTITEM,
     // Order
     permissions.ADD_ORDER,
     permissions.READ_ORDER,
