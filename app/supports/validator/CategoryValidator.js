@@ -22,7 +22,12 @@ class CategoryUpdateValidator extends Validator {
       check("name")
         .notEmpty()
         .isLength({ min: 1, max: 255 })
-        .withMessage("Name must be between 1 and 255 characters")
+        .custom(async (categoryValue) => {
+        const checkCategory = await category.findOne({ where: { name: categoryValue } });
+        if (checkCategory !== null) {
+          throw Error(`Category ${categoryValue} is already used`);
+        }
+      }),
     ]
 }
 
