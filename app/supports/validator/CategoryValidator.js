@@ -25,7 +25,7 @@ class CategoryUpdateValidator extends Validator {
         .custom(async (categoryValue) => {
         const checkCategory = await category.findOne({ where: { name: categoryValue } });
         if (checkCategory !== null) {
-          throw Error(`Category ${categoryValue} is already used`);
+          throw Error(`Category ${categoryValue} is already used`); 
         }
       }),
     ]
