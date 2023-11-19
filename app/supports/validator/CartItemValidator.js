@@ -17,13 +17,4 @@ class CartAddValidator extends Validator {
   ];
 }
 
-class CartUpdateValidator extends Validator {
-  rules = [
-    // check("productId")
-    //   .notEmpty()
-    //   .isInt()
-    //   .withMessage("productId must be minimum 1"),
-  ];
-}
-
-module.exports = { CartAddValidator, CartUpdateValidator };
+module.exports = { CartAddValidator };

@@ -4,10 +4,7 @@ const router = express.Router();
 const allowedTo = require("../constants/permissions");
 const { tokenAuth } = require("../middlewares/tokenAuth");
 const { permissionCheck } = require("../middlewares/permissionAuth");
-const {
-  CartAddValidator,
-  CartUpdateValidator,
-} = require("../supports/validator/CartItemValidator");
+const { CartAddValidator } = require("../supports/validator/CartItemValidator");
 
 router.use(tokenAuth);
 
@@ -105,15 +102,17 @@ router.put(
 
           // cek stock & quantity
           if (productData != null) {
-            if (productData.stock > req.body.quantity) {
-              // update
-              val.quantity = req.body.quantity;
-              val.note = req.body.note;
-              val.save();
-              res.send("cart updated");
-            } else {
-              res.send("stock kurang");
+            if (req.body.quantity) {
+              if (productData.stock > req.body.quantity) {
+                // update
+                val.quantity = req.body.quantity;
+              } else {
+                res.send("stock kurang");
+              }
             }
+            val.note = req.body.note;
+            val.save();
+            res.send("cart updated");
           } else {
             res.send("product not found");
           }
