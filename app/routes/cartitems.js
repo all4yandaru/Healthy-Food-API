@@ -4,7 +4,10 @@ const router = express.Router();
 const allowedTo = require("../constants/permissions");
 const { tokenAuth } = require("../middlewares/tokenAuth");
 const { permissionCheck } = require("../middlewares/permissionAuth");
-const { CartAddValidator } = require("../supports/validator/CartItemValidator");
+const {
+  CartAddValidator,
+  CartUpdateValidator,
+} = require("../supports/validator/CartItemValidator");
 
 router.use(tokenAuth);
 
@@ -82,6 +85,7 @@ router.post(
 router.put(
   "/:id",
   permissionCheck(allowedTo.EDIT_CARTITEM),
+  new CartUpdateValidator().validate(),
   async (req, res) => {
     // ambil data user
     const tokenData = await token.findOne({

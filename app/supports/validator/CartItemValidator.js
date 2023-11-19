@@ -17,4 +17,13 @@ class CartAddValidator extends Validator {
   ];
 }
 
-module.exports = { CartAddValidator };
+class CartUpdateValidator extends Validator {
+  rules = [
+    check("quantity")
+      .notEmpty()
+      .isInt({ min: 1 })
+      .withMessage("quantity must be minimum 1"),
+  ];
+}
+
+module.exports = { CartAddValidator, CartUpdateValidator };

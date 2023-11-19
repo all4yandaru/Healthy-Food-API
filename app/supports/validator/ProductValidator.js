@@ -42,4 +42,33 @@ class ProductAddValidator extends Validator {
   ];
 }
 
-module.exports = { ProductAddValidator };
+class ProductUpdateValidator extends Validator {
+  rules = [
+    check("name")
+      .notEmpty()
+      .isLength({ min: 1, max: 255 })
+      .withMessage("name must between 1 and 255"),
+
+    check("calories")
+      .notEmpty()
+      .isInt({ min: 1 })
+      .withMessage("calories must be minimum 1"),
+
+    check("price")
+      .notEmpty()
+      .isInt({ min: 500 })
+      .withMessage("calories must be minimum Rp 500"),
+
+    check("rating")
+      .notEmpty()
+      .isInt({ min: 1, max: 100 })
+      .withMessage("calories must be between 1 and 100"),
+
+    check("stock")
+      .notEmpty()
+      .isInt({ min: 1 })
+      .withMessage("calories must be minimum 1"),
+  ];
+}
+
+module.exports = { ProductAddValidator, ProductUpdateValidator };

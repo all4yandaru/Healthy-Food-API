@@ -6,6 +6,7 @@ const { tokenAuth } = require("../middlewares/tokenAuth");
 const { permissionCheck } = require("../middlewares/permissionAuth");
 const {
   ProductAddValidator,
+  ProductUpdateValidator,
 } = require("../supports/validator/ProductValidator");
 
 router.use(tokenAuth);
@@ -42,6 +43,7 @@ router.post(
 router.put(
   "/:id",
   permissionCheck(allowedTo.EDIT_PRODUCT),
+  new ProductUpdateValidator().validate(),
   async (req, res) => {
     const productData = await product.findOne({ where: { id: req.params.id } });
 
