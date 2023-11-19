@@ -82,7 +82,6 @@ router.post(
 router.put(
   "/:id",
   permissionCheck(allowedTo.EDIT_CARTITEM),
-  new CartUpdateValidator().validate(),
   async (req, res) => {
     // ambil data user
     const tokenData = await token.findOne({
@@ -106,13 +105,17 @@ router.put(
               if (productData.stock > req.body.quantity) {
                 // update
                 val.quantity = req.body.quantity;
+                val.note = req.body.note;
+                val.save();
+                res.send("cart updated");
               } else {
                 res.send("stock kurang");
               }
+            } else {
+              val.note = req.body.note;
+              val.save();
+              res.send("cart updated");
             }
-            val.note = req.body.note;
-            val.save();
-            res.send("cart updated");
           } else {
             res.send("product not found");
           }
