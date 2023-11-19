@@ -135,30 +135,24 @@ router.delete(
   "/:id",
   permissionCheck(allowedTo.DELETE_CARTITEM),
   async (req, res) => {
-    const cartData = await cartitem.findOne({
-      where: { id: req.params.id },
-      include: "user",
-    }); // ambil id user dari parameter id dari cart item
-
-    cartData == null ? res.send("no cart item") : 0;
-
     const tokenData = await token.findOne({
       where: { token: req.headers["authorization"] },
       include: "user",
     }); // ambil user id dari token
 
-    if (cartData.user.id == tokenData.user.id) {
-      // di check apakah sama idnya? jika sama maka delete success
-      // jika idnya beda maka delete failed
-      await cartitem.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-      res.send("Delete Success");
-    } else {
-      res.send("id tidak sama");
-    }
+    const cartData = await cartitem
+      .findOne({
+        where: { id: req.params.id, userId: tokenData.user.id },
+        include: "user",
+      })
+      .then(async (val) => {
+        if (val != null) {
+          await val.destroy();
+          res.send("Delete Success");
+        } else {
+          res.send("no cart item");
+        }
+      }); // ambil id user dari parameter id dari cart item
   }
 );
 
