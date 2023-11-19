@@ -8,13 +8,13 @@ class OrderAddValidator extends Validator {
     // check("paymentStatus")
     //   .notEmpty.isLength({ min: 1, max: 255 })
     //   .withMessage("payment status must be between 1 and 255 characters"),
-    // status: waiting for order, waiting for payment, canceled, paid
+    // status: Waiting for Order, Waiting for Payment, Canceled, Payment Successfull, In Delivery, Delivered
 
     check("paymentMethod")
       .notEmpty()
       .isLength({ min: 1, max: 255 })
       .withMessage("payment method must be between 1 and 255 characters"),
-    // method: cash, transfer, credit card, e-wallet
+    // method: Cash, DC, CC, eMoney
   ];
 }
 

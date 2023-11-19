@@ -75,7 +75,7 @@ router.post(
         userId: tokenData.user.id,
         total: 0,
         date: new Date(),
-        paymentStatus: "waiting for order",
+        paymentStatus: "Waiting for Order",
         paymentMethod: req.body.paymentMethod,
       })
       .then(async (val) => {
