@@ -6,7 +6,6 @@ const { permissionCheck } = require("../middlewares/permissionAuth");
 const { order, token } = require("../models");
 const {
   PaymentAddValidator,
-  PaymentLockValidator,
 } = require("../supports/validator/PaymentValidator");
 
 router.use(tokenAuth);

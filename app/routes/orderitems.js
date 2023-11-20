@@ -52,7 +52,7 @@ router.post(
         orderData.userId == tokenData.user.id
       ) {
         // cek order status
-        if (orderData.paymentStatus.toLowerCase() == "Waiting for Order") {
+        if (orderData.paymentStatus == "Waiting for Order") {
           // cek quantity & stock
           if (cartData.product.stock > cartData.quantity) {
             const productData = await product.findOne({
